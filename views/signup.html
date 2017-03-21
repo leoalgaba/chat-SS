@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscríbete en el equipo de chat SS</title>
+</head>
+<body>
+  <h1> Inscríbete en el equipo de chat SS</h1>
+  <form id="signup-form">
+    <label for="username">Nombre de usuario</label><br>
+    <input id="username" name="username" placeholder="Eliga un nombre de usuario" required>
+
+    <br><br><label for="password">Contraseña</label><br>
+    <input id="password" name="password" placeholder="contraseña" type="password" required>
+
+    <br><br><label for="email">Email</label><br>
+    <input id="email" name="email" placeholder="email del usuario" type="email" required>
+
+    <br><br><button onclick="signup()" type="button">Inscribete</button>
+  </form>
+  <br><span id="msg"></span>
+
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script type="text/javascript">
+
+    /**
+     * Esta funcion se ejecuta al hacer clic en el boton 'Signup'
+     * registra mediante ajax al nuevo usuario
+     */
+    function signup() {
+      $.ajax({
+        type: "POST",
+        url: '/signup',
+        data: $('#signup-form').serialize(),
+        success: function (data) {
+          $('#msg').empty();
+          if (data.error) {
+            $('#msg').append(data.err.msg);
+          }
+          else {
+            $('#msg').append('Usuario registrado con éxito');
+            $('#signup-form')[0].reset();
+            window.location = '/';
+          }
+        },
+        dataType: 'json'
+      });
+    }
+  </script>
+</body>
+</html>
